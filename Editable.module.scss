@@ -10,6 +10,22 @@
     pointer-events: none;
 }
 
+.textarea_btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: .3;
+  transition: .4s;
+}
+
+.textarea_btn:hover {
+  opacity:1;
+}
+
+.textarea {
+  position: relative;
+}
+
 .form_input > input:invalid {
     + div {
         .submit_button {

@@ -31,6 +31,15 @@ export default class Editable extends React.Component {
 
   componentDidUpdate() {
     this._onGenerate(this._text.current);
+    this._text.current && this._text.current.focus();
+  }
+
+  get() {
+    return this._value;
+  }
+
+  set(val) {
+    return this._value = val;
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -46,9 +55,68 @@ export default class Editable extends React.Component {
     return true;
   }
 
+  submit_btn() {
+    return (
+      <button className={`btn btn-primary ${ styles.submit_button }`}
+              dangerouslySetInnerHTML={{__html:feather.icons.check.toSvg()}}
+              onClick={async ()=>{
+                try {
+                  var current = $(this._text.current);
+                  var val = current.val();
+                  if(val === this._value || (this._not_null && !val)) {
+                    return this.setState({ focus: false });
+                  }
+                  if(this.props.type === "number") {
+                    val = parseInt(val);
+                  }
+                  if(this.props.type === "datetime") {
+                    val = val.replace(/ /g, "");
+                  }
+
+                  await this._onSubmit(val);
+                  this._value = val;
+                  if(this._type === "datetime") {
+                    this._value =
+                      this._value
+                      && (new Date(this._value)).toLocaleString();
+                  }
+                  this.setState({ focus: false });
+                } catch(error) {
+                }
+              }}/>);
+  }
+
+  cancel_btn() {
+    return (
+      <button className="btn btn-danger"
+              dangerouslySetInnerHTML={{
+                __html:feather.icons.x.toSvg()
+              }}
+              onClick={()=>{
+                this.setState({ focus: false });
+              }}/>
+    );
+  }
+
   render() {
     if(this.state.focus) {
       this.props.onShow && this.props.onShow();
+      if(this._type === "textarea") {
+        return (
+          <div className={`${this.props.className || ""} ${styles.textarea}`}>
+            <textarea
+              rows={this.props.rows}
+              cols={this.props.cols}
+              ref={this._text}
+              className={`form-control`}
+              defaultValue={this._value}
+            />
+            <div className={styles.textarea_btn}>
+              { this.submit_btn() }
+              { this.cancel_btn() }
+            </div>
+          </div>);
+      }
       return(
         <div className={this.props.className}>
           <FormInput
@@ -63,34 +131,8 @@ export default class Editable extends React.Component {
             placeholder={this.props.placeholder}
             className={ styles.form_input }
           >
-            <button className={`btn btn-primary ${ styles.submit_button }`}
-                    dangerouslySetInnerHTML={{__html:feather.icons.check.toSvg()}}
-                    onClick={async ()=>{
-                      try {
-                        var current = $(this._text.current);
-                        var val = current.val();
-                        if(val === this._value || (this._not_null && !val)) {
-                          return this.setState({ focus: false });
-                        }
-                        if(this.props.type === "number") {
-                          val = parseInt(val);
-                        }
-                        if(this.props.type === "datetime") {
-                          val = val.replace(/ /g, "");
-                        }
-                        await this._onSubmit(val);
-                        this._value = val;
-                        this.setState({ focus: false });
-                      } catch(error) {
-                      }
-                    }}/>
-            <button className="btn btn-danger"
-                    dangerouslySetInnerHTML={{
-                      __html:feather.icons.x.toSvg()
-                    }}
-                    onClick={()=>{
-                      this.setState({ focus: false });
-                    }}/>
+            { this.submit_btn() }
+            { this.cancel_btn() }
           </FormInput>
         </div>);
     } else {
