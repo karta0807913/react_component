@@ -34,30 +34,38 @@ export default class FormInput extends React.Component {
         }
     }
 
-    render() {
-        return <div className={`input-group flex-nowrap ${this.props.className}`}>
-                 { this.props.title ?
-                   <div key={this._divKey} className="input-group-prepend">
-                     <span className="input-group-text">{ this.props.title }</span>
-                   </div>
-                   : ""}
-                 <input
-                   { ...this._input_props }
-                   key={ this._inputKey }
-                   className={`form-control ${ styles.input }`}
-                   ref={ this._input_ref }
-                 />
-                 <div className="input-group-append">
-                   { this.props.errorText ?
-                     <span key={this._spanKey} className="input-group-text">
-                       { this.props.errorText }
-                     </span> : "" }
-                 </div>
-                 { this.props.children ?
-                   <div className="input-group-append">
-                     { this.props.children }
-                   </div>
-                   : "" }
-               </div>;
+  render() {
+    return (
+      <div className={`input-group flex-nowrap ${this.props.className}`}>
+        { this.props.title ?
+          <div key={this._divKey} className="input-group-prepend">
+            <span className="input-group-text">{ this.props.title }</span>
+          </div>
+          : ""}
+        { (this.props.type === "textarea") ?
+          <textarea
+            { ...this._input_props }
+            key={ this._inputKey }
+            className={`form-control ${ styles.input }`}
+            ref={ this._input_ref }
+          />: <input
+                         { ...this._input_props }
+                    key={ this._inputKey }
+                    className={`form-control ${ styles.input }`}
+                    ref={ this._input_ref }
+           />}
+        <div className="input-group-append">
+          { this.props.errorText ?
+            <span key={this._spanKey} className="input-group-text">
+              { this.props.errorText }
+            </span> : "" }
+        </div>
+        { this.props.children ?
+          <div className="input-group-append">
+            { this.props.children }
+          </div>
+          : "" }
+      </div>
+    );
     }
 }

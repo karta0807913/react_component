@@ -101,25 +101,11 @@ export default class Editable extends React.Component {
   render() {
     if(this.state.focus) {
       this.props.onShow && this.props.onShow();
-      if(this._type === "textarea") {
-        return (
-          <div className={`${this.props.className || ""} ${styles.textarea}`}>
-            <textarea
-              rows={this.props.rows}
-              cols={this.props.cols}
-              ref={this._text}
-              className={`form-control`}
-              defaultValue={this._value}
-            />
-            <div className={styles.textarea_btn}>
-              { this.submit_btn() }
-              { this.cancel_btn() }
-            </div>
-          </div>);
-      }
       return(
         <div className={this.props.className}>
           <FormInput
+            rows={this.props.rows}
+            cols={this.props.cols}
             inputRef={ this._text }
             defaultValue={ this._value }
             type={ this._type || "text" }
@@ -137,16 +123,34 @@ export default class Editable extends React.Component {
         </div>);
     } else {
       this.props.onClose && this.props.onClose();
+      if(this._type === "textarea") {
+        let item = (this._value || this._null).split("\n").map((item, i)=> {
+          return <p className={ styles.editable_text } key={i}>
+                   {item}
+                 </p>;
+        });
+        return (
+          <div
+            onClick={()=>{
+              this.props.editable && this.setState({ focus: true });
+            }}
+            className={this.props.className}
+          >
+            { item }
+          </div>
+        );
+      }
       return (
         <div
           onClick={()=>{
-                this.props.editable && this.setState({ focus: true });
-              }}
-              className={this.props.className}
-            >
-              <p className={ styles.editable_text }>{ this._value || this._null }</p>
-            </div>);
-        }
-
+            this.props.editable && this.setState({ focus: true });
+          }}
+          className={this.props.className}
+        >
+          <p className={ styles.editable_text }>
+            { this._value || this._null }
+          </p>
+        </div>);
     }
+  }
 }
