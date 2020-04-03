@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from "./EditImage.module.scss";
 
-const language = require(`../language/${process.env.REACT_APP_LANGUAGE}.json`);
-
 export default class EditImage extends React.Component {
     constructor(...args) {
         super(...args);
@@ -70,7 +68,7 @@ export default class EditImage extends React.Component {
                  <img
                    src={this.state.src}
                    onClick={this.changeImage.bind(this)}
-                   alt={this.props.alt || language.change_image}
+                   alt={this.props.alt}
                    className={ styles.img }
                    style={ this.props.style }
                  />

@@ -1,9 +1,14 @@
 import React from 'react';
-import $ from "jquery";
 import styles from "./FormInput.module.scss";
 
-import "jquery-datetimepicker/build/jquery.datetimepicker.min.css";
-import "jquery-datetimepicker/build/jquery.datetimepicker.full.min.js";
+var $;
+try {
+  $ = require("jquery");
+  require("jquery-datetimepicker/build/jquery.datetimepicker.min.css");
+  require("jquery-datetimepicker/build/jquery.datetimepicker.full.min.js");
+} catch(error) {
+  $ = null;
+}
 
 export default class FormInput extends React.Component {
     constructor(...args) {
@@ -17,7 +22,14 @@ export default class FormInput extends React.Component {
         delete this._input_props.className;
         delete this._input_props.children;
         if(this._input_props.type === "datetime") {
+          if($ === null) {
+            console.warn(
+              "jquery or datetimepicker not found, please install use \"npm i jquery jquery-datetimepicker\""
+            );
             this._input_props.type = "text";
+          } else {
+            this._input_props.type = "date";
+          }
         }
         this._input_ref = this.props.inputRef || React.createRef();
         this._inputKey = Math.random();
@@ -26,12 +38,14 @@ export default class FormInput extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.type === "datetime") {
-            $(this._input_ref.current).datetimepicker({
-                startDate: new Date(),
-                format: "Y-m-d\\T H:i:tP"
-            });
+      if(this.props.type === "datetime") {
+        if($ !== null) {
+          $(this._input_ref.current).datetimepicker({
+            startDate: new Date(),
+            format: "Y-m-d\\T H:i:tP"
+          });
         }
+      }
     }
 
   render() {
