@@ -21,8 +21,10 @@ export default class Editable extends React.Component {
     this._null = this.props.empty || "空";
     if(this._type === "datetime") {
       this._value =
-        this._value
-        && (new Date(this._value)).toLocaleString();
+        this._value && (new Date(this._value));
+      this._value.setSeconds(0);
+      this._value.setMilliseconds(0);
+      this._value = this._value.toLocaleString();
     }
     this.state = {
       focus: false
@@ -48,8 +50,7 @@ export default class Editable extends React.Component {
       this._value = next;
       if(this._type === "datetime") {
         this._value =
-          this._value
-          && (new Date(this._value));
+          this._value && (new Date(this._value));
         this._value.setSeconds(0);
         this._value.setMilliseconds(0);
         this._value = this._value.toLocaleString();
@@ -80,9 +81,7 @@ export default class Editable extends React.Component {
                   this._value = val;
                   if(this._type === "datetime") {
                     this._value =
-                      this._value
-                      && (new Date(this._value));
-                    console.log(this._value);
+                      this._value && (new Date(this._value));
                     this._value.setSeconds(0);
                     this._value.setMilliseconds(0);
                     this._value = this._value.toLocaleString();
