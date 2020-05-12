@@ -49,10 +49,10 @@ export default class FormInput extends React.Component {
             className={`form-control ${ styles.input }`}
             ref={ this._input_ref }
           />: <input
-                         { ...this._input_props }
-                    key={ this._inputKey }
-                    className={`form-control ${ styles.input }`}
-                    ref={ this._input_ref }
+                { ...this._input_props }
+                key={ this._inputKey }
+                className={`form-control ${ styles.input }`}
+                ref={ this._input_ref }
            />}
         <div className="input-group-append">
           { this.props.errorText ?
