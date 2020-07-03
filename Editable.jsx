@@ -22,6 +22,7 @@ export default class Editable extends React.Component {
     if(this._type === "datetime") {
       this._value =
         this._value && (new Date(this._value));
+      this._value = this._value || new Date();
       this._value.setSeconds(0);
       this._value.setMilliseconds(0);
       this._value = this._value.toLocaleString();
