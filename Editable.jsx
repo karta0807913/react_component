@@ -6,9 +6,6 @@ import * as feather from "feather-icons";
 import FormInput from "./FormInput";
 import styles from "./Editable.module.scss";
 
-import "jquery-datetimepicker/build/jquery.datetimepicker.min.css";
-import "jquery-datetimepicker/build/jquery.datetimepicker.full.min.js";
-
 export default class Editable extends React.Component {
   constructor(props, ...args) {
     super(props, ...args);

@@ -1,9 +1,12 @@
 import React from 'react';
-import $ from "jquery";
 import styles from "./FormInput.module.scss";
 
-import "jquery-datetimepicker/build/jquery.datetimepicker.min.css";
-import "jquery-datetimepicker/build/jquery.datetimepicker.full.min.js";
+let $ = null;
+try {
+    require("jquery-datetimepicker/build/jquery.datetimepicker.min.css");
+    require("jquery-datetimepicker/build/jquery.datetimepicker.full.min.js");
+    $ = require("jquery");
+} catch(e) {}
 
 export default class FormInput extends React.Component {
     constructor(...args) {
@@ -16,7 +19,7 @@ export default class FormInput extends React.Component {
         delete this._input_props.title;
         delete this._input_props.className;
         delete this._input_props.children;
-        if(this._input_props.type === "datetime") {
+        if(this._input_props.type === "datetime" && $) {
             this._input_props.type = "text";
         }
         this._input_ref = this.props.inputRef || React.createRef();
@@ -26,7 +29,7 @@ export default class FormInput extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.type === "datetime") {
+        if(this.props.type === "datetime" && $) {
             $(this._input_ref.current).datetimepicker({
                 startDate: new Date(),
                 format: "Y-m-d\\T H:i:tP"
