@@ -37,6 +37,10 @@ export default class FormInput extends React.Component {
         }
     }
 
+  value() {
+    return this._input_ref.current.value;
+  }
+
   render() {
     return (
       <div className={`input-group flex-nowrap ${this.props.className}`}>

@@ -33,7 +33,7 @@ export default class App extends React.Component {
   }
 
   confirm_button() {
-    if(this.props.cancel) {
+    if(this.props.confirm) {
       return (
         <button
           type="button"
