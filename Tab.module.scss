@@ -1,0 +1,29 @@
+.context {
+  display: flex;
+  flex-direction: column;
+  > div {
+    display: flex;
+    flex: 1;
+    .hide {
+      display: none;
+    }
+  }
+
+  > ul {
+    display: flex;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 0;
+    padding-inline-start: 0px;
+    justify-content: space-between;
+    overflow-y: auto;
+    background-color: white;
+    > il {
+      min-width: 20px;
+      text-align: center;
+    }
+    .active {
+      color: #495057;
+      border-bottom: 3px solid blue;
+    }
+  }
+}
