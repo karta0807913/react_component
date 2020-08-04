@@ -4,9 +4,6 @@ import styles from "./FeatherButton.module.scss";
 import * as feather from "feather-icons";
 
 export default class FeatherButton extends React.Component {
-  constructor(...args) {
-    super(...args);
-  }
   render() {
     return (
       <div className={`${styles.container} ${this.props.className || ""}`} onClick={ this.props.onClick } >
